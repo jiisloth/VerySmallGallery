@@ -8,7 +8,7 @@ let scroll;
 let touchX;
 let scrolltimeout;
 
-$(document).load(function () {
+$(window).on('load', function() {
     carousel = $("#carousel")
     imagebox = $("#imagebox")
     scroll = {left: $("#scroll-left"), right: $("#scroll-right"), both: $(".scroll-button")}
