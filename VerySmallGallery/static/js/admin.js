@@ -1,5 +1,5 @@
 // TODO:
-// page not found on default view
+// Gallery not working :DDD
 
 
 

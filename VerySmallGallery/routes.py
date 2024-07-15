@@ -52,8 +52,9 @@ def database(model):
             to_del = Page.query.filter_by(id=delete_id).first()
         elif model == "image":
             to_del = Image.query.filter_by(id=delete_id).first()
-            if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], to_del.filename)):
-                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], to_del.filename))
+            if Image.query.filter_by(filename=to_del.filename).count() > 1:
+                if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], to_del.filename)):
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], to_del.filename))
         elif model == "footer":
             to_del = Footer.query.filter_by(id=delete_id).first()
         if to_del:
@@ -205,8 +206,9 @@ def handle_post_request(post_request):
                         if check_for_bool(client_item[variable], server_item, variable):
                             db.session.delete(server_item)
                             if item[0] == "images":
-                                if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], server_item.filename)):
-                                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], server_item.filename))
+                                if Image.query.filter_by(filename=server_item.filename).count() > 1:
+                                    if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], server_item.filename)):
+                                        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], server_item.filename))
                             break
                         continue
                     setattr(server_item, variable,
