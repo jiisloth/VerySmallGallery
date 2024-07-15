@@ -38,4 +38,5 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     BASIC_AUTH_USERNAME = env_conf.get("ADMIN_USER") or 'admin'
     BASIC_AUTH_PASSWORD = env_conf.get("ADMIN_PASSWORD") or 'helevetinhyvasalasana'
-    UPLOAD_FOLDER = env_conf.get('DATABASE_URL') or os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', 'photos')
+    UPLOAD_FOLDER = env_conf.get('UPLOAD_FOLDER') or os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads', 'photos')
+    PORT = env_conf.get('PORT') or 5050
