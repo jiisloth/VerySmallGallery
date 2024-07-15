@@ -491,9 +491,9 @@ function force_array(t){
 }
 
 function set_resets(id, val, saved_val){
-    console.log(val)
-    console.log(id)
-    console.log(saved_val)
+    //console.log(val)
+    //console.log(id)
+    //console.log(saved_val)
     let v = val.toString().toLowerCase()
     const discard = $("#discard-"+id)
     const reset = $("#reset-"+id)
@@ -605,7 +605,6 @@ function input_value_changed(obj){
     } else {
         val = $(obj).val()
     }
-    console.log(val)
     let id = obj.id.split(/-(.*)/s)[1]
 
     if (button_mappings.hasOwnProperty(id)) {

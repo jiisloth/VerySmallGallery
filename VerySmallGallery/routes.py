@@ -207,7 +207,6 @@ def handle_post_request(post_request):
                             if item[0] == "images":
                                 if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], server_item.filename)):
                                     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], server_item.filename))
-                            print(client_item[variable], flush=True)
                             break
                         continue
                     setattr(server_item, variable,
