@@ -14,7 +14,6 @@ $(window).on('load', function() {
     scroll = {left: $("#scroll-left"), right: $("#scroll-right"), both: $(".scroll-button")}
     scroll.left.hide();
     carousel_max_move = carousel.width() - imagebox.width();
-    console.log(carousel_max_move)
 
     if (carousel_max_move <= 0){
         scroll.right.hide();
@@ -49,7 +48,6 @@ $(window).on('load', function() {
 function button_press(dir) {
     move_carousel(dir*carousel_speed);
     scrolltimeout = setInterval(function () {
-        console.log(carousel_speed)
         move_carousel(dir*carousel_speed);
     }, 20);
 }
