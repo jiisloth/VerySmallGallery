@@ -152,6 +152,7 @@ let var_mapping = {
             },
             "deleted": {
                 button_on_id: "image-delete",
+                go_to: "main-settings"
             },
             "page": {
                 input_id: "ImagePage"
@@ -207,6 +208,7 @@ let var_mapping = {
             },
             "deleted": {
                 button_on_id: "footer-delete",
+                go_to: "main-settings"
             },
         }
     }
