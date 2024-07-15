@@ -99,7 +99,8 @@ let var_mapping = {
             },
             "deleted": {
                 button_on_id: "page-delete",
-                go_to: "main-settings"
+                go_to: "main-settings",
+                special: "FORCE-SAVING"
             },
             "added": {
                 output: "#PageAdded"
@@ -152,7 +153,8 @@ let var_mapping = {
             },
             "deleted": {
                 button_on_id: "image-delete",
-                go_to: "main-settings"
+                go_to: "main-settings",
+                special: "FORCE-SAVING"
             },
             "page": {
                 input_id: "ImagePage"
@@ -208,7 +210,8 @@ let var_mapping = {
             },
             "deleted": {
                 button_on_id: "footer-delete",
-                go_to: "main-settings"
+                go_to: "main-settings",
+                special: "FORCE-SAVING"
             },
         }
     }

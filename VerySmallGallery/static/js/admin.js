@@ -27,7 +27,7 @@ let current_footer_item_id = null
 
 let item_at_left_id = null
 let item_at_right_id = null
-
+let force_save = false
 $(document).ready(function () {
 
     if (check_local_changes()){
@@ -37,6 +37,7 @@ $(document).ready(function () {
     }
     do_local_changes()
 
+    force_save = localStorage.getItem("force_save")
     current_menu = localStorage.getItem("current_menu")
     current_footer_item_id = localStorage.getItem("current_footer_item_id")
     current_image_id = localStorage.getItem("current_image_id")
@@ -114,7 +115,7 @@ function check_local_changes(){
     let c2 = get_local_changes("pages", in_pages)
     let c3 = get_local_changes("images", in_images)
     let c4 = get_local_changes("footer_items", in_footer_items)
-    return c1 || c2 || c3 || c4;
+    return c1 || c2 || c3 || c4 || force_save;
 }
 function get_local_changes(storage_key, input){
     let storage_item = window.localStorage.getItem(storage_key)
@@ -334,6 +335,12 @@ function do_changes(category){
                                 $("#page-show").prop('disabled', true)
                             } else {
                                 $("#page-show").prop('disabled', false)
+                            }
+                            break
+                        case "FORCE-SAVING":
+                            if (val){
+                                force_save = true
+                                localStorage.setItem("force_save", force_save)
                             }
                             break
                     }
@@ -674,6 +681,8 @@ function save_all_edits(){
 }
 
 function cancel_all_edits(){
+    force_save = false
+    localStorage.setItem("force_save", force_save)
     localStorage.setItem("current_menu", current_menu)
     localStorage.removeItem("settings")
     localStorage.removeItem("pages")

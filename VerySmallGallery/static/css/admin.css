@@ -103,7 +103,9 @@ label{
     display: none;
 }
 
-
+.local-deleted{
+    display: none !important;
+}
 .admin-container > .local-hidden, .admin-container > .local-hidden > a{
     color: rebeccapurple;
 }
