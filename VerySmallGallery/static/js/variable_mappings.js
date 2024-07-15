@@ -98,7 +98,7 @@ let var_mapping = {
                 special: "SET-HIDDEN",
             },
             "deleted": {
-                button_on_id: "page-delete",
+                button_id: "page-delete",
                 go_to: "main-settings",
                 special: "FORCE-SAVING"
             },
@@ -152,7 +152,7 @@ let var_mapping = {
                 button_off_id: "image-show",
             },
             "deleted": {
-                button_on_id: "image-delete",
+                button_id: "image-delete",
                 go_to: "main-settings",
                 special: "FORCE-SAVING"
             },
@@ -209,7 +209,7 @@ let var_mapping = {
                 button_off_id: "footer-show",
             },
             "deleted": {
-                button_on_id: "footer-delete",
+                button_id: "footer-delete",
                 go_to: "main-settings",
                 special: "FORCE-SAVING"
             },
@@ -231,6 +231,9 @@ $(document).ready(function () {
                 }
                 if (params.hasOwnProperty("input_id")){
                     button_mappings[params["input_id"]] = {variable: key, type: "input", category: cat}
+                }
+                if (params.hasOwnProperty("button_id")){
+                    button_mappings[params["button_id"]] = {variable: key, type: "button_on", category: cat}
                 }
             }
         }
