@@ -1,0 +1,19 @@
+<script>
+    let current_page_id = {% if current_page %}{{ current_page.id }}{% else %}null{% endif %}
+    let in_pages = {}
+    let in_images = {}
+    let in_footer_items = {}
+    let in_settings = {}
+    {% for page in pages %}
+        in_pages[{{ page.id }}] = {{ page.as_dict()|tojson }}
+    {% endfor %}
+    {% for image in images %}
+        in_images[{{ image.id }}] = {{ image.as_dict()|tojson }}
+    {% endfor %}
+    {% for footer_item in footer %}
+        in_footer_items[{{ footer_item.id }}] = {{ footer_item.as_dict()|tojson }}
+    {% endfor %}
+    {% if settings %}
+        in_settings["settings"] = {{ settings.as_dict()|tojson }}
+    {% endif %}
+</script>

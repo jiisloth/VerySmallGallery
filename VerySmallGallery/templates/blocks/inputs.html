@@ -1,0 +1,71 @@
+{% macro field(name, label, type, value, default) %}
+    <div class="row left input-row">
+        <label for="input-{{ name }}">{{ label }}</label>
+        <div class="input-holder">
+            {% if type == "int" %}
+                <input id="input-{{ name }}" name="{{ name }}" type="number" value="{{ value }}" placeholder="{{ default }}" class="admin-input">
+            {% elif type == "txt" %}
+                <input id="input-{{ name }}" name="{{ name }}" type="text" value="{{ value }}" placeholder="{{ default }}" class="admin-input">
+            {% elif type == "bool" %}
+                <input id="input-{{ name }}" name="{{ name }}" type="checkbox" {% if value %}checked{% endif %} placeholder="{{ default }}" class="admin-input">
+            {% elif type == "txtbox" %}
+                <textarea id="input-{{ name }}" name="{{ name }}" placeholder="{{ default }}" rows="6" cols="80" class="admin-input">{{ value }}</textarea>
+            {% elif type == "codebox" %}
+                <textarea id="input-{{ name }}" name="{{ name }}" placeholder="{{ default }}" rows="6" cols="80" class="admin-input code-box">{{ value }}</textarea>
+            {% else %}
+                <span>input field type: {{ type }} not valid.</span>
+            {% endif %}
+        </div>
+        <button id="discard-{{ name }}" class="action-button discard-edit" value="{{ value }}" disabled>Discard edits</button> <button id="reset-{{ name }}" class="action-button reset-value" value="{{ default }}" {% if value == default %}disabled{% endif %}>Reset</button>
+    </div>
+{% endmacro %}
+{% macro select_page(name, label, pages, value, default=False) %}
+    <div class="row left input-row">
+        <label for="input-{{ name }}">{{ label }}</label>
+
+        <div class="input-holder">
+        <select name="{{ name }}" id="input-{{ name }}" class="admin-input">
+            {% if default %}
+                <option value="-1" {% if value == -1 %}selected{% endif %}>FIRST_IN_MENU</option>
+            {% endif %}
+            {% for page_item in pages %}
+                <option value="{{ page_item.id }}" {% if value == page_item.id %}selected{% endif %}>{{ page_item.name }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <button id="discard-{{ name }}" class="action-button discard-edit" value="{{ value }}" disabled>Discard edits</button>
+    </div>
+{% endmacro %}
+{% macro wtf(wtfield) %}
+    <div class="row left input-row">
+        {% if wtfield.type == "FileField" %}
+            <label></label>
+            <div class="input-holder">
+                {{ wtfield }}
+            </div>
+        {% elif wtfield.type == "StringField" %}
+            {{ wtfield.label }}
+            <div class="input-holder">
+                {{ wtfield }}
+            </div>
+        {% elif wtfield.type == "SelectField" %}
+            {{ wtfield.label }}
+            <div class="input-holder">
+                {{ wtfield }}
+            </div>
+        {% elif wtfield.type == "BooleanField" %}
+            {{ wtfield.label }}
+            <div class="input-holder">
+                {{ wtfield }}
+            </div>
+        {% elif wtfield.type == "SubmitField" %}
+            <label></label>
+            <div class="input-holder">
+                {{ wtfield }}
+            </div>
+        {% endif %}
+    </div>
+    {% for error in field.errors %}
+        <br><span class="error">↑ Error: {{ error }}</span>
+    {% endfor %}
+{% endmacro %}

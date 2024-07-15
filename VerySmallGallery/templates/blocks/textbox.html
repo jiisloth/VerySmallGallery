@@ -1,0 +1,14 @@
+<div id="textbox" class="row">
+    {% if images %}
+        {% set break = False %}
+        {% for img in images %}
+            {% if (not img.hidden or admin) and not break %}
+                <img id="image-{{ img.id }}" class="side-image image admin-clickable" src="{{ url_for("uploaded", filename=img.filename) }}"/>
+                {% if not admin %}{% set break = True %}{% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div id="PageTextBox" class="text admin-clickable">
+        {{ current_page.text|safe }}
+    </div>
+</div>

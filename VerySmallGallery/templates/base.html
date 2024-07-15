@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% if admin %}
+        {% include "blocks/get_admin_data.html" %}
+        <script src="{{ url_for('static', filename='js/variable_mappings.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    {% endif %}
+    {% if current_page and current_page.page_type == "GALLERY" %}
+        <script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+    {% endif %}
+</head>
+<body>
+<div class="container" style="width: {{ settings.content_width }}px">
+    <div class="header">
+        <div id="header-text" class="row admin-clickable go-to-main-settings">
+            {% for char in settings.header_text %}
+                <div>{{ char }}</div>
+            {% endfor %}
+        </div>
+        <div id="menu" class="row space-around admin-clickable go-to-pages-settings item-container">
+            {% for menu_item in pages %}
+                {% if (not menu_item.disabled and not menu_item.hidden) or admin %}
+                    <div id="page-{{ menu_item.id }}" class="menu-item admin-draggable">
+                        {% if admin %}
+                            <a href="{{ url_for("admin", page_handle=menu_item.url_handle) }}">{{ menu_item.name }}</a>
+                        {% else %}
+                            <a href="{{ url_for("index", page_handle=menu_item.url_handle) }}">{{ menu_item.name }}</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% if admin and not pages %}
+                <div class="menu-item">THIS</div>
+                <div class="menu-item">IS</div>
+                <div class="menu-item">A</div>
+                <div class="menu-item">PLACEHOLDER</div>
+                <div class="menu-item">FOR</div>
+                <div class="menu-item">MENU</div>
+            {% endif %}
+        </div>
+    </div>
+    <div id="content" style="height: {{ settings.content_height }}px">
+        {% block content %}{% endblock %}
+    </div>
+    <div id="footer" class="row centered admin-clickable go-to-footer-settings item-container">
+        {% for footer_item in footer %}
+            {% if not footer_item.hidden or admin %}
+                <div id="footer-{{ footer_item.id }}" class="footer-item admin-clickable admin-draggable">
+                    {% if footer_item.order != 0 %}
+                        <div class="footer-separator">{{ settings.footer_separator }}</div>
+                    {% endif %}
+                    {% if footer_item.link %}
+                        <a class="real-footer-link" target="_blank" href="{{ footer_item.link }}">{{ footer_item.text }}</a>
+                    {% else %}
+                        <a class="not-a-link">{{ footer_item.text }}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% if admin and not footer %}
+            <div>Footer is here</div><div class="footer-separator">{{ settings.footer_separator }}</div><div>This is a placeholder</div>
+        {% endif %}
+    </div>
+    {% if admin %}
+        <div id="admin-content">
+            {% include "blocks/adminbox.html" %}
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% import "blocks/inputs.html" as input %}
+<div id="add-stuff">
+    <div class="row centered admin-menu">
+        <div>Settings:</div>
+        <button class="go-to-main-settings">Main</button>
+        <button class="go-to-pages-settings">Pages</button>
+        <button class="go-to-footer-settings">Footer</button>
+        {% if current_page %}
+        <button id="this-page-button" class="go-to-this-page-settings">Current ({{ current_page.name }})</button>
+        {% endif %}
+        <div class="footer-separator">{{ settings.footer_separator }}</div>
+        <div>Add new: </div>
+        <button class="go-to-new-page">Page</button>
+        <button class="go-to-new-image">Image</button>
+        <button class="go-to-new-footeritem">Footer item</button>
+    </div>
+</div>
+<div id="admin-tabs">
+    {% include "blocks/adminsettings.html" %}
+    {% include "blocks/admincreate.html" %}
+</div>
+<div id="save-edits-menu">
+    <div class="centered warning">
+        You have unsaved changes!
+    </div>
+    <div class="row centered">
+        <button id="cancel-edits">Discard changes</button>
+        <div class="footer-separator">{{ settings.footer_separator }}</div>
+        <button id="save-edits">Save changes</button>
+    </div>
+</div>

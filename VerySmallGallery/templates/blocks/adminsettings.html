@@ -1,0 +1,152 @@
+ <div id="main-settings" class="admin-tab">
+    <h2>Site Settings</h2>
+    {{ input.field("HeaderText", "Page header text:", "txt", settings.header_text, "VERY SMALL GALLERY") }}
+    {{ input.field("MainTitle", "Main windowtitle:", "txt", settings.title, "VerySmallGallery by jsloth") }}
+    {{ input.field("UsePageTitles", "Use page names in windowtitle:", "bool", settings.use_page_titles, False) }}
+    {{ input.select_page("MainPage", "Default landing page:", pages, settings.main_page, True) }}
+    {{ input.field("ContentWidth", "Content width in pixels:", "int", settings.content_width, 1200) }}
+    {{ input.field("ContentHeight", "Content height in pixels:", "int", settings.content_height, 480) }}
+</div>
+<div id="footer-settings" class="admin-tab">
+    <h2>Footer settings</h2>
+    {% if footer %}
+        <span>All footer items:</span>
+        <div class="row admin-container">
+            {% for footer_item in footer %}
+                <div id="listfooter-{{ footer_item.id }}" class="list-footer-item admin-list-item admin-clickable">
+                    <span title="{{ footer_item.link }}">{{ footer_item.text }}</span>
+                <img class="status-icon small icon-visible" src="{{ url_for('static', filename='icons/accessible.png') }}" alt="accessible" title="Content is accessible for everyone">
+                <img class="status-icon small icon-not-visible" src="{{ url_for('static', filename='icons/notaccessible.png') }}" alt="not accessible" title="Content has unsaved changes">
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {{ input.field("FooterSeparator", "Footer separator:", "txt", settings.footer_separator, "||") }}
+    <br>
+    <div class="row centered">
+        <button class="go-to-new-footeritem">Create new footer item</button>
+    </div>
+</div>
+<div id="footer-item-settings" class="admin-tab">
+    <div class="row left statusrow">
+        <div class="move_left move_button" title="Move page link to the left in menu"><img src="{{ url_for('static', filename='icons/arrow.png') }}"></div>
+        <div class="move_right move_button" title="Move page link to the right in menu"><img src="{{ url_for('static', filename='icons/arrow.png') }}"></div>
+        <h2>Configure footer item</h2>
+        <img class="status-icon icon-saved" src="{{ url_for('static', filename='icons/saved.png') }}" alt="saved" title="No unsaved changes">
+        <img class="status-icon icon-not-saved" src="{{ url_for('static', filename='icons/notsaved.png') }}" alt="not saved" title="Content has unsaved changes">
+        <img class="status-icon icon-accessible" src="{{ url_for('static', filename='icons/accessible.png') }}" alt="accessible" title="Content is accessible for everyone">
+        <img class="status-icon icon-not-accessible" src="{{ url_for('static', filename='icons/notaccessible.png') }}" alt="not accessible" title="Content has unsaved changes">
+        <img class="status-icon icon-visible" src="{{ url_for('static', filename='icons/visible.png') }}" alt="visible" title="Content is visible for everyone">
+        <img class="status-icon icon-not-visible" src="{{ url_for('static', filename='icons/notvisible.png') }}" alt="not visible" title="Content is hidden">
+        <img class="status-icon icon-inmenu" src="{{ url_for('static', filename='icons/inmenu.png') }}" alt="in menu" title="Page link is listed in menu">
+        <img class="status-icon icon-not-inmenu" src="{{ url_for('static', filename='icons/notinmenu.png') }}" alt="not in menu" title="Page is listed in menu">
+    </div>
+    {{ input.field("FooterItemText", "Item text:", "txt", "", "") }}
+    {{ input.field("FooterItemLink", "Item link:", "txt", "", "") }}
+    <div class="row centered">
+        <button id="footer-delete" class="admin-item-button">Delete footer item</button>
+        <div class="footer-separator">{{ settings.footer_separator }}</div>
+        <button id="footer-hide" class="admin-item-button">Hide footer item</button>
+        <button id="footer-show" class="admin-item-button">Show footer item</button>
+    </div>
+</div>
+<div id="image-settings" class="admin-tab">
+    <div class="row left statusrow">
+        <div class="move_left move_button" title="Move page link to the left in menu"><img src="{{ url_for('static', filename='icons/arrow.png') }}"></div>
+        <div class="move_right move_button" title="Move page link to the right in menu"><img src="{{ url_for('static', filename='icons/arrow.png') }}"></div>
+        <h2>Configure image</h2>
+        <img class="status-icon icon-saved" src="{{ url_for('static', filename='icons/saved.png') }}" alt="saved" title="No unsaved changes">
+        <img class="status-icon icon-not-saved" src="{{ url_for('static', filename='icons/notsaved.png') }}" alt="not saved" title="Content has unsaved changes">
+        <img class="status-icon icon-accessible" src="{{ url_for('static', filename='icons/accessible.png') }}" alt="accessible" title="Content is accessible for everyone">
+        <img class="status-icon icon-not-accessible" src="{{ url_for('static', filename='icons/notaccessible.png') }}" alt="not accessible" title="Content has unsaved changes">
+        <img class="status-icon icon-visible" src="{{ url_for('static', filename='icons/visible.png') }}" alt="visible" title="Content is visible for everyone">
+        <img class="status-icon icon-not-visible" src="{{ url_for('static', filename='icons/notvisible.png') }}" alt="not visible" title="Content is hidden">
+        <img class="status-icon icon-inmenu" src="{{ url_for('static', filename='icons/inmenu.png') }}" alt="in menu" title="Page link is listed in menu">
+        <img class="status-icon icon-not-inmenu" src="{{ url_for('static', filename='icons/notinmenu.png') }}" alt="not in menu" title="Page is listed in menu">
+    </div>
+    <div id="current-image-preview"></div>
+    {{ input.field("ImageLabel", "Image label:", "txt", "", "") }}
+    {% if current_page %}
+        {{ input.select_page("ImagePage", "Move image to page*:", pages, current_page.id) }}
+    {% endif %}
+    <div class="row centered">
+        <button id="image-delete" class="admin-item-button">Delete image</button>
+        <div class="footer-separator">{{ settings.footer_separator }}</div>
+        <button id="image-hide" class="admin-item-button">Hide image</button>
+        <button id="image-show" class="admin-item-button">Show image</button>
+    </div>
+</div>
+<div id="pages-settings" class="admin-tab">
+    <h2>Pages</h2>
+    {% if pages %}
+        <span>All pages:</span>
+        <div class="row admin-container">
+            {% for pg in pages %}
+                <div id="listpage-{{ pg.id }}" class="menu-item admin-list-item admin-clickable">
+                    <a href="{{ url_for("admin", page_handle=pg.url_handle) }}">{{ pg.name }}</a>
+                <img class="status-icon small icon-accessible" src="{{ url_for('static', filename='icons/accessible.png') }}" alt="accessible" title="Content is accessible for everyone">
+                <img class="status-icon small icon-not-accessible" src="{{ url_for('static', filename='icons/notaccessible.png') }}" alt="not accessible" title="Content has unsaved changes">
+                <img class="status-icon small icon-inmenu" src="{{ url_for('static', filename='icons/inmenu.png') }}" alt="in menu" title="Page link is listed in menu">
+                <img class="status-icon small icon-not-inmenu" src="{{ url_for('static', filename='icons/notinmenu.png') }}" alt="not in menu" title="Page is listed in menu">
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="row centered">
+        <button class="go-to-new-page">Create new page</button>
+    </div>
+</div>
+<div id="this-page-settings" class="admin-tab">
+    {% if current_page %}
+        <div class="row left statusrow">
+            <div class="move_left move_button" title="Move page link to the left in menu"><img src="{{ url_for('static', filename='icons/arrow.png') }}"></div>
+            <div class="move_right move_button" title="Move page link to the right in menu"><img src="{{ url_for('static', filename='icons/arrow.png') }}"></div>
+            <h2 id="this-page-header">
+            {{ current_page.name }}
+            </h2>
+            <img class="status-icon icon-saved" src="{{ url_for('static', filename='icons/saved.png') }}" alt="saved" title="No unsaved changes">
+            <img class="status-icon icon-not-saved" src="{{ url_for('static', filename='icons/notsaved.png') }}" alt="not saved" title="Content has unsaved changes">
+            <img class="status-icon icon-accessible" src="{{ url_for('static', filename='icons/accessible.png') }}" alt="accessible" title="Content is accessible for everyone">
+            <img class="status-icon icon-not-accessible" src="{{ url_for('static', filename='icons/notaccessible.png') }}" alt="not accessible" title="Content has unsaved changes">
+            <img class="status-icon icon-visible" src="{{ url_for('static', filename='icons/visible.png') }}" alt="visible" title="Content is visible for everyone">
+            <img class="status-icon icon-not-visible" src="{{ url_for('static', filename='icons/notvisible.png') }}" alt="not visible" title="Content is hidden">
+            <img class="status-icon icon-inmenu" src="{{ url_for('static', filename='icons/inmenu.png') }}" alt="in menu" title="Page link is listed in menu">
+            <img class="status-icon icon-not-inmenu" src="{{ url_for('static', filename='icons/notinmenu.png') }}" alt="not in menu" title="Page is listed in menu">
+        </div>
+        {% if images %}
+            {% if current_page and current_page.page_type == "GALLERY" %}
+            <span>Hidden images on this page:</span>
+            <div class="row admin-container">
+                {% for img in images %}
+                    {% if img.hidden %}
+                        <div id="listimage-{{ img.id }}" class="list-image admin-list-item admin-clickable" title="{{ img.label }}">
+                            <img src="{{ url_for("uploaded", filename=img.filename) }}" alt="{{ img.label }}"/>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% elif current_page and current_page.page_type == "TEXT" %}
+            <span>Images on this page:</span>
+            <div class="row admin-container">
+                {% for img in images %}
+                    <div id="listimage-{{ img.id }}" class="list-image admin-list-item admin-clickable" title="{{ img.label }}">
+                        <img src="{{ url_for("uploaded", filename=img.filename) }}" alt="{{ img.label }}"/>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endif %}
+        {{ input.field("PageName", "Page title:", "txt", current_page.name, "New Page") }}
+        {{ input.field("PageUrlHandle", "URL handle:", "txt", current_page.url_handle, "") }}
+        {{ input.field("PageText", "TextContent:", "txt", current_page.text, "") }}
+        <div class="row centered">
+            <button id="page-delete" value="{{ current_page.id }}" class="admin-item-button">Delete page</button>
+            <div class="footer-separator">{{ settings.footer_separator }}</div>
+            <button id="page-hide" value="{{ current_page.id }}" class="admin-item-button">Hide page from menu</button>
+            <button id="page-show" value="{{ current_page.id }}" class="admin-item-button">Show page in menu</button>
+            <div class="footer-separator">{{ settings.footer_separator }}</div>
+            <button id="page-disable" value="{{ current_page.id }}" class="admin-item-button">Disable page access</button>
+            <button id="page-enable" value="{{ current_page.id }}" class="admin-item-button">Enable page access</button>
+        </div>
+    {% endif %}
+</div>

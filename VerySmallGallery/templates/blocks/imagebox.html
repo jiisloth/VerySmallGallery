@@ -1,0 +1,18 @@
+<div id="imagebox">
+    <div id="scroll-left" class="scroll-button"> <</div>
+    <div id="scroll-right" class="scroll-button"> ></div>
+    <div id="carousel" class="item-container">
+        {% for img in images %}
+            {% if not img.hidden or admin %}
+                <div id="image-{{ img.id }}" class="image admin-clickable admin-draggable">
+                    {% if img.label %}
+                        <div class="subtext">
+                            {{ img.label }}
+                        </div>
+                    {% endif %}
+                    <img src="{{ url_for("uploaded", filename=img.filename) }}" class="scrollable" alt="{{ img.label }}"/>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

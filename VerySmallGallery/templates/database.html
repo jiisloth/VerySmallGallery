@@ -1,0 +1,52 @@
+{% if model != "" %}
+    {% if entries %}
+        <table>
+            <thead>
+            <tr>
+                <td>
+                    Delete
+                </td>
+                <td>
+                    id
+                </td>
+                {% for k in entries[0].as_dict().keys() %}
+                    {% if k != "id" %}
+                        <td>
+                            {{ k }}
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                    <tr>
+                        <td>
+                            <form action="{{ url_for("database", model = model) }}" method="POST">
+                                <input name="delete_id" type="hidden" value="{{ entry.id }}">
+                                <input type="submit" value="DELETE">
+                            </form>
+                        </td>
+                        <td>
+                            {{ entry.id }}
+                        </td>
+                         {% for k, v in entry.as_dict().items() %}
+                            {% if k != "id" %}
+                                <td>
+                                    {{ v }}
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        No entries for {{ model }}
+    {% endif %}
+{% else %}
+    <a href="{{ url_for("database", model = "settings") }}">settings</a><br>
+    <a href="{{ url_for("database", model = "page") }}">page</a><br>
+    <a href="{{ url_for("database", model = "image") }}">image</a><br>
+    <a href="{{ url_for("database", model = "footer") }}">footer</a><br>
+{% endif %}

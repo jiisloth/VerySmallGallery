@@ -1,0 +1,148 @@
+label{
+    text-align: right;
+    width: 40%;
+    display: inline-block;
+}
+.input-holder{
+    width: 200px;
+}
+.input-row{
+    gap: 10px;
+}
+#admin-content{
+    margin-top: 20px;
+}
+.admin-clickable:hover{
+    background-color: rgba(255, 255, 0, 0.63);
+}
+.admin-draggable:hover{
+    background-color: rgba(26, 255, 0, 0.63);
+}
+.admin-tab{
+    display: none;
+}
+#save-edits-menu{
+    display: none;
+    background-color: rgba(255, 0, 0, 0.22);
+    padding: 5px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+.status-icon, .move_button > img{
+    height: 30px;
+}
+.move_right > img{
+    transform: scaleX(-1);
+}
+.move_button{
+    margin-right: 10px;
+}
+.move_button, .admin-clickable{
+    cursor: pointer;
+}
+.move_button:hover{
+    filter: drop-shadow(0px 0px 1px #000000);
+}
+.move_button.disabled{
+    opacity: 0.5;
+    cursor: default;
+    filter: drop-shadow(0px 0px 0px #000000);
+}
+.status-icon.small{
+    height: 20px;
+    margin-bottom: -5px;
+    margin-left: -5px;
+}
+.statusrow{
+    align-items: center;
+}
+.statusrow > h2{
+    width: 100%;
+}
+#save-edits-menu .row{
+    margin-top: 5px;
+}
+.warning{
+    font-weight: bold;
+}
+.admin-menu{
+    align-items: center;
+}
+.admin-menu button{
+    font-size: 1rem;
+    margin: 0 2px;
+}
+.admin-container{
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.deleted{
+    display: none;
+}
+.list-image, .list-image > img{
+    height: 76px;
+    max-width: 76px;
+    object-fit: cover;
+}
+#current-image-preview{
+    height: 120px;
+}
+
+
+#current-image-preview > img{
+    height: 100%;
+}
+
+.item-container > .local-hidden{
+    display: none;
+}
+.item-container > .local-disabled{
+    display: none;
+}
+
+
+.admin-container > .local-hidden, .admin-container > .local-hidden > a{
+    color: rebeccapurple;
+}
+.admin-container > .local-disabled, .admin-container > .local-disabled > a{
+    color: red;
+}
+.admin-container > .admin-list-item > .icon-inmenu{
+    display: inline-block;
+}
+.admin-container > .local-hidden > .icon-inmenu{
+    display: none;
+}
+.admin-container > .admin-list-item > .icon-not-inmenu{
+    display: none;
+}
+.admin-container > .local-hidden > .icon-not-inmenu{
+    display: inline-block;
+}
+.admin-container > .admin-list-item > .icon-visible{
+    display: inline-block;
+}
+.admin-container > .local-hidden > .icon-visible{
+    display: none;
+}
+.admin-container > .admin-list-item > .icon-not-visible{
+    display: none;
+}
+.admin-container > .local-hidden > .icon-not-visible{
+    display: inline-block;
+}
+.admin-container > .admin-list-item > .icon-accessible{
+    display: inline-block;
+}
+.admin-container > .local-disabled > .icon-accessible{
+    display: none;
+}
+.admin-container > .admin-list-item > .icon-not-accessible{
+    display: none;
+}
+.admin-container > .local-disabled > .icon-not-accessible{
+    display: inline-block;
+}

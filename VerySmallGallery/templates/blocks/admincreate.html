@@ -1,0 +1,45 @@
+<div id="upload-new-image" class="admin-tab">
+    <h2>Upload new image</h2>
+    {% if pages %}
+        {% if imageupload %}
+            <form class="form" method="post" enctype="multipart/form-data" role="form">
+                {{ imageupload.hidden_tag() }}
+                {{ input.wtf(imageupload.file) }}
+                {{ input.wtf(imageupload.label) }}
+                {{ input.wtf(imageupload.page) }}
+                {{ input.wtf(imageupload.hidden) }}
+                {{ input.wtf(imageupload.submit_image) }}
+            </form>
+        {% endif %}
+    {% else %}
+        <div class="centered">
+            You need to add at least one page to add images.
+        </div>
+    {% endif %}
+</div>
+<div id="create-new-page" class="admin-tab">
+    <h2>Add new Page</h2>
+    {% if newpage %}
+        <form class="form" method="post" role="form">
+            {{ newpage.hidden_tag() }}
+            {{ input.wtf(newpage.name) }}
+            {{ input.wtf(newpage.url_handle) }}
+            {{ input.wtf(newpage.page_type) }}
+            {{ input.wtf(newpage.submit_page) }}
+        </form>
+    {% endif %}
+</div>
+<div id="create-new-footeritem" class="admin-tab">
+    <h2>Add new footer item</h2>
+    {% if newfooteritem %}
+        <form class="form" method="post" role="form">
+            {{ newfooteritem.hidden_tag() }}
+            {{ input.wtf(newfooteritem.text) }}
+            {{ input.wtf(newfooteritem.link) }}
+            {{ input.wtf(newfooteritem.hidden) }}
+            {{ input.wtf(newfooteritem.submit_footeritem) }}
+        </form>
+    {% endif %}
+</div>
+
+
