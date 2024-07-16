@@ -108,6 +108,18 @@ $(document).ready(function () {
     $(".move_right").click(function(){
         move_current_item(1)
     });
+    $("#submit_settings").click(function(){
+        fix_all_orders()
+    });
+    $("#submit_page").click(function(){
+        fix_all_orders(1,0,0)
+    });
+    $("#submit_image").click(function(){
+        fix_all_orders(0,1,0)
+    });
+    $("#submit_footeritem").click(function(){
+        fix_all_orders(0,0,1)
+    });
 });
 
 function check_local_changes(){
@@ -690,4 +702,27 @@ function cancel_all_edits(){
     localStorage.removeItem("footer_items")
     location.reload();
 
+}
+
+function fix_all_orders(p=0,i=0,f=0){
+    fix_orders("pages", p)
+    fix_orders("images", i)
+    fix_orders("footer_item", f)
+}
+
+function fix_orders(key, begin = 0){
+    let arr = []
+    for (const [k, item] of Object.entries(local_values[key])) {
+        arr.push({"k": k, "o": item.order})
+    }
+    arr.sort(function(a,b) {
+        return a["o"] - b["o"]
+    });
+
+    let o = begin
+    for (let i = 0; i < arr.length; i++){
+        local_values[key][arr[i]["k"]].order = o
+        o += 1
+    }
+    save_changes(key, true)
 }

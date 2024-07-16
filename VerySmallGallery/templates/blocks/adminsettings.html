@@ -2,7 +2,7 @@
     <h2>Site Settings</h2>
     {{ input.field("HeaderText", "Page header text:", "txt", settings.header_text, "VERY SMALL GALLERY") }}
     {{ input.field("MainTitle", "Main windowtitle:", "txt", settings.title, "VerySmallGallery by jsloth") }}
-    {{ input.field("UsePageTitles", "Use page names in windowtitle:", "bool", settings.use_page_titles, False) }}
+    {{ input.field("UsePageTitles", "Use page names in windowtitle:", "bool", settings.use_page_titles, True) }}
     {{ input.select_page("MainPage", "Default landing page:", pages, settings.main_page, True) }}
     {{ input.field("ContentWidth", "Content width in pixels:", "int", settings.content_width, 1200) }}
     {{ input.field("ContentHeight", "Content height in pixels:", "int", settings.content_height, 480) }}

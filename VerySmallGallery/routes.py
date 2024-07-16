@@ -27,8 +27,9 @@ def admin(page_handle):
     newfooteritem = NewFooterItem()
 
     if page_handle == "":
+        images = Image.query.all()
         return render_template(
-            'admin.html', admin=True,
+            'admin.html', admin=True, images=images,
             imageupload=imageupload, newpage=newpage, newfooteritem=newfooteritem, current_page=None, title=title,
             settings=settings, footer=footer, pages=pages
         )
@@ -197,7 +198,11 @@ def handle_post_request(post_request):
         for item in [["pages", Page], ["images", Image], ["footer_items", Footer]]:
             client_items = json.loads(data.get(item[0]))
             server_items = item[1].query.all()
+            print("client_items", flush=True)
+            print(client_items, flush=True)
+            print(item[0], flush=True)
             for server_item in server_items:
+                print(server_item, flush=True)
                 client_item = client_items[str(server_item.id)]
                 for variable in client_item.keys():
                     if variable in ["id", "added", "edited"]:
