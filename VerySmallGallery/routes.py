@@ -100,12 +100,15 @@ def find_and_render(page_handle, is_admin=False, imageupload=None, newpage=None,
                 settings=settings, footer=footer, pages=pages
             )
     else:
+        images = []
+        if is_admin:
+            images = Image.query.all()
         page = Page.query.filter_by(url_handle=page_handle).first()
         if not page or (page.disabled and not is_admin):
             return render_template(
                 'not_found.html', admin=is_admin,
                 imageupload=imageupload, newpage=newpage, newfooteritem=newfooteritem, current_page=None, title=title,
-                settings=settings, footer=footer, pages=pages
+                settings=settings, footer=footer, pages=pages, images=images
             )
 
         if settings.use_page_titles:
@@ -198,11 +201,7 @@ def handle_post_request(post_request):
         for item in [["pages", Page], ["images", Image], ["footer_items", Footer]]:
             client_items = json.loads(data.get(item[0]))
             server_items = item[1].query.all()
-            print("client_items", flush=True)
-            print(client_items, flush=True)
-            print(item[0], flush=True)
             for server_item in server_items:
-                print(server_item, flush=True)
                 client_item = client_items[str(server_item.id)]
                 for variable in client_item.keys():
                     if variable in ["id", "added", "edited"]:
