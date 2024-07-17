@@ -4,7 +4,7 @@ import json
 import urllib.parse
 from flask import render_template, request, redirect, url_for, send_from_directory
 from VerySmallGallery import app, db, basic_auth
-from VerySmallGallery.models import Settings, Page, Footer, Image
+from VerySmallGallery.models import Settings, Page, Footer, Image, Visitor
 from VerySmallGallery.forms import ImageUpload, NewPage, NewFooterItem
 from werkzeug.utils import secure_filename
 
@@ -72,6 +72,15 @@ def database(model):
         entries = Footer.query.all()
     return render_template('database.html', model=model, entries=entries)
 
+@app.route('/stats', methods=['GET'])
+@basic_auth.required
+def stats():
+    admin_ips = db.session.query(Visitor.ip).filter_by(admin=True).distinct().count()
+    unique_loads = db.session.query(Visitor.ip).distinct().count()
+    all_loads = Visitor.query.count()
+    return render_template('stats.html', all_loads=all_loads, unique_loads=unique_loads, admin_ips=admin_ips)
+
+
 
 @app.route('/', defaults={'page_handle': ''}, methods=['GET'])
 @app.route('/<page_handle>', methods=['GET'])
@@ -94,6 +103,7 @@ def find_and_render(page_handle, is_admin=False, imageupload=None, newpage=None,
         if not page:
             page = Page.query.filter_by(hidden=False).order_by(Page.order).first()
         if not page:
+            set_visit("pre_setup", admin=is_admin)
             return render_template(
                 'configure_me.html', admin=is_admin,
                 imageupload=imageupload, newpage=newpage, newfooteritem=newfooteritem, current_page=None, title=title,
@@ -105,6 +115,7 @@ def find_and_render(page_handle, is_admin=False, imageupload=None, newpage=None,
             images = Image.query.all()
         page = Page.query.filter_by(url_handle=page_handle).first()
         if not page or (page.disabled and not is_admin):
+            set_visit("404", admin=is_admin)
             return render_template(
                 'not_found.html', admin=is_admin,
                 imageupload=imageupload, newpage=newpage, newfooteritem=newfooteritem, current_page=None, title=title,
@@ -114,6 +125,7 @@ def find_and_render(page_handle, is_admin=False, imageupload=None, newpage=None,
         if settings.use_page_titles:
             title = page.name
 
+    set_visit("pre_setup", admin=is_admin)
     if page.page_type == "GALLERY":
         if is_admin:
             images = Image.query.all()
@@ -239,7 +251,7 @@ def unique_handle(custom, default):
     handle = urllib.parse.quote(handle.replace("/", "-"))
     handle_d = handle
     i = 1
-    handles = []
+    handles = ["admin", "database", "stats"]
     pages = Page.query.all()
     for page in pages:
         handles.append(page.url_handle)
@@ -278,3 +290,13 @@ def fix_orders():
             o += 1
     db.session.commit()
 
+
+def set_visit(page, admin=False):
+    visitor = Visitor(
+        ip=request.remote_addr,
+        page=page,
+        admin=admin,
+        timestamp=datetime.datetime.now()
+    )
+    db.session.add(visitor)
+    db.session.commit()

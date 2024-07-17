@@ -1,6 +1,14 @@
 from VerySmallGallery import db
 
 
+class Visitor(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String())
+    page = db.Column(db.String())
+    admin = db.Column(db.Boolean)
+    timestamp = db.Column(db.DateTime())
+
+
 class Settings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String())
