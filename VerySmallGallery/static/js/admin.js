@@ -1,5 +1,3 @@
-// TODO:
-// Gallery not working :DDD
 
 
 
@@ -602,8 +600,12 @@ function go_to_menu(menuid){
             break
         case "upload-new-image":
             for (const [key, page] of Object.entries(local_values["pages"])){
+                let selected = ""
+                if (key.toString() === current_page_id.toString()){
+                    selected = " selected"
+                }
                 if (!page.deleted){
-                    dropdown += '<option value="'+key+'">'+page.name+'</option>'
+                    dropdown += '<option value="'+key+'"'+selected+'>'+page.name+'</option>'
                 }
             }
             $("#page").html(dropdown)

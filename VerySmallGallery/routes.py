@@ -155,7 +155,13 @@ def handle_post_request(post_request):
     timenow = datetime.datetime.now()
     if imageupload.submit_image.data:
         f = imageupload.file.data
-        filename = secure_filename(f.filename)
+        fname = f.filename
+        while True:
+            filename = secure_filename(fname)
+            if Image.query.filter_by(filename=filename).count() > 0 or os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], filename)):
+                fname = "0"+fname
+            else:
+                break
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         image = Image(
             hidden=imageupload.hidden.data,
