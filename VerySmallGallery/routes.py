@@ -27,7 +27,7 @@ def admin(page_handle):
     newfooteritem = NewFooterItem()
 
     if page_handle == "":
-        images = Image.query.all()
+        images = Image.query.order_by(Image.page, Image.order).all()
         return render_template(
             'admin.html', admin=True, images=images,
             imageupload=imageupload, newpage=newpage, newfooteritem=newfooteritem, current_page=None, title=title,
@@ -112,7 +112,7 @@ def find_and_render(page_handle, is_admin=False, imageupload=None, newpage=None,
     else:
         images = []
         if is_admin:
-            images = Image.query.all()
+            images = Image.query.order_by(Image.page, Image.order).all()
         page = Page.query.filter_by(url_handle=page_handle).first()
         if not page or (page.disabled and not is_admin):
             set_visit("404", admin=is_admin)
@@ -128,7 +128,7 @@ def find_and_render(page_handle, is_admin=False, imageupload=None, newpage=None,
     set_visit("pre_setup", admin=is_admin)
     if page.page_type == "GALLERY":
         if is_admin:
-            images = Image.query.all()
+            images = Image.query.order_by(Image.page, Image.order).all()
         else:
             images = Image.query.filter_by(page=page.id).order_by(Image.order).all()
         return render_template(
@@ -140,7 +140,7 @@ def find_and_render(page_handle, is_admin=False, imageupload=None, newpage=None,
     if page.page_type == "TEXT":
         images = Image.query.filter_by(page=page.id).order_by(Image.order).all()
         if is_admin:
-            images = Image.query.all()
+            images = Image.query.order_by(Image.page, Image.order).all()
         return render_template(
             'textpage.html', admin=is_admin,
             imageupload=imageupload, newpage=newpage, newfooteritem=newfooteritem, current_page=page, title=title,
@@ -289,7 +289,7 @@ def get_common():
 def fix_orders():
     for entries in [Page.query.order_by(Page.order).all(),
                     Footer.query.order_by(Footer.order).all(),
-                    Image.query.order_by(Image.order).all()]:
+                    Image.query.order_by(Image.page, Image.order).all()]:
         o = 0
         for entry in entries:
             entry.order = o
