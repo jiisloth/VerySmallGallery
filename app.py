@@ -1,4 +1,7 @@
 from VerySmallGallery import app, conf
+import logging
+log = logging.getLogger('waitress')
+log.propagate = False
 
 if __name__ == '__main__':
     if conf.dev:
